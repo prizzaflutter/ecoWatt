@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "30362321268",
+    "project_id": "ecowatt-a19da",
+    "storage_bucket": "ecowatt-a19da.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:30362321268:android:b604de074877a7fd60ec21",
+        "android_client_info": {
+          "package_name": "com.example.ecowatt_yassine_askour_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3Xt_Qv-0s8PFlHx7zlZYwAePqwyCH__Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:30362321268:android:22d0633a76009a3b60ec21",
+        "android_client_info": {
+          "package_name": "com.example.ecowatt_yassine_askour_flutter_admine"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3Xt_Qv-0s8PFlHx7zlZYwAePqwyCH__Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
