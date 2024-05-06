@@ -1,13 +1,15 @@
 import 'package:ecowatt_yassine_askour_flutter/model/user_model.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-
 
 class UserReportDesignWidget extends StatefulWidget {
   final UserModel? userModel;
   final BuildContext? context;
 
-  const UserReportDesignWidget({super.key, this.context, this.userModel, });
+  const UserReportDesignWidget({
+    super.key,
+    this.context,
+    this.userModel,
+  });
 
   @override
   State<UserReportDesignWidget> createState() => _UserReportDesignWidgetState();
@@ -34,22 +36,27 @@ class _UserReportDesignWidgetState extends State<UserReportDesignWidget> {
           children: [
             CircleAvatar(
               minRadius: 40,
-              backgroundImage: NetworkImage(widget.userModel!.userImage.toString()),
+              backgroundImage:
+                  NetworkImage(widget.userModel!.userImage.toString()),
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(widget.userModel!.userName.toString()),
-                  Text(widget.userModel!.userEmail.toString()),
-                ],
-              ),
-            ),
-            widget.userModel!.userStatus == "on" ? Text("on") : Text("off")
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(widget.userModel!.userName.toString()),
+                      Text(widget.userModel!.userEmail.toString()),
+                    ],
+                  ),
+                ),
+              ],
+            )
           ],
         ),
-      )
+      ),
     );
   }
 }
