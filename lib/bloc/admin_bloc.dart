@@ -1,8 +1,6 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:ecowatt_yassine_askour_flutter/global/global.dart';
-import 'package:ecowatt_yassine_askour_flutter/model/user_model.dart';
 import 'package:ecowatt_yassine_askour_flutter/services/auth_services.dart';
 import 'package:ecowatt_yassine_askour_flutter/ui/main_pages/signup_screen.dart';
 import 'package:ecowatt_yassine_askour_flutter/ui/main_pages/signup_screen1.dart';
@@ -11,48 +9,51 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../model/Admin_model.dart';
+
+
 part 'admin_event.dart';
 
 part 'admin_state.dart';
 
-mixin SignUpBloc on Bloc<UserEvent, UserState> {}
-mixin LogInBloc on Bloc<UserEvent , UserState>{}
+mixin SignUpBloc on Bloc<AdminEvent, AdminState> {}
+mixin LogInBloc on Bloc<AdminEvent , AdminState>{}
 final AuthService authService = AuthService();
-class UserBloc extends Bloc<UserEvent, UserState> with SignUpBloc , LogInBloc {
-  UserBloc() : super(UserInitial()) {
-    on<SignUpUserEvent>(_signUpUserEvent);
-    on<LogInUserEvent>(_logInUserEvent);
+class AdminBloc extends Bloc<AdminEvent, AdminState> with SignUpBloc , LogInBloc {
+  AdminBloc() : super(AdminInitial()) {
+    on<SignUpAdminEvent>(_signUpAdminEvent);
+    on<LogInAdminEvent>(_logInAdminEvent);
   }
 
-  FutureOr<void> _signUpUserEvent(
-      SignUpUserEvent event, Emitter<UserState> emit) async {
+  FutureOr<void> _signUpAdminEvent(
+      SignUpAdminEvent event, Emitter<AdminState> emit) async {
     emit(DataLoadingState(true));
     try {
-      final UserModel? user = await authService.signUpUser(
+      final AdminModel? admin = await authService.signUpAdmin(
           event.email.trim(), event.password.trim());
-      if (user != null){
-        debugPrint("user!= null------------------------------------");
-        await  saveImageToStorage(user.userUID.toString()).then((value) async{
+      if (admin != null){
+        debugPrint("Admin!= null------------------------------------");
+        await  saveImageToStorage(admin.adminUID.toString()).then((value) async{
           debugPrint(" save Info To FireStore ------------------------------------");
-           await saveInfoToFireStore(user.userUID.toString());
+           await saveInfoToFireStore(admin.adminUID.toString());
         });
-        emit(DataLoadedState(user));
-      }else {emit(DataLoadingErrorSate("Create User Failed (user == null)"));}
+        emit(DataLoadedState(admin));
+      }else {emit(DataLoadingErrorSate("Create Admin Failed (Admin == null)"));}
     } on FirebaseException catch (exception){
       debugPrint("The error is : ${exception.toString()}");
     }
   }
-FutureOr<void> _logInUserEvent(
-    LogInUserEvent event, Emitter<UserState> emit ) async {
+FutureOr<void> _logInAdminEvent(
+    LogInAdminEvent event, Emitter<AdminState> emit ) async {
   emit(DataLoadingState(true));
   try {
-    final UserModel? user = await authService.logInUser(event.email, event.password);
-    if (user != null) {
-      debugPrint("user!=null------------------------------------------------");
-      emit(DataLoadedState(user));
+    final AdminModel? admin = await authService.logInAdmin(event.email, event.password);
+    if (admin != null) {
+      debugPrint("Admin!=null------------------------------------------------");
+      emit(DataLoadedState(admin));
     } else {
       debugPrint("DAtaLoadingErrorStae emited------------------------------------");
-      emit(DataLoadingErrorSate("Create User Failed"));
+      emit(DataLoadingErrorSate("Create Admin Failed"));
     }
   } catch (error) {
     debugPrint("The Error is : ${error.toString()}");
@@ -64,7 +65,7 @@ Future saveImageToStorage(String id) async {
   final file = filePath;
   final SettableMetadata metadata = SettableMetadata(contentType: "image/jpeg");
   final Reference storageRef = FirebaseStorage.instance.ref();
-  final imagePath = storageRef.child("Users/$id/image.jpeg");
+  final imagePath = storageRef.child("Admin/$id/image.jpeg");
   UploadTask uploadTask = imagePath.putFile(file!, metadata);
   await uploadTask.whenComplete(() {});
   String url = await imagePath.getDownloadURL();
@@ -119,17 +120,17 @@ Future saveImageToStorage(String id) async {
 // save the data to firebaseFireStore
 Future saveInfoToFireStore (String id) async {
   SharedPreferences? sharedPreferences = await  SharedPreferences.getInstance();
-  await firebaseFirestore.collection("Users").doc(id).set({
+  await firebaseFirestore.collection("Admins").doc(id).set({
     "publishedDate" : DateTime.now().millisecondsSinceEpoch,
     "dateOfCreateAccount" : DateTime.now().toString(),
-    "UserUID" : id ,
-     "UserEmail" : SignUpScreen2.emailController.text.trim(),
-    "UserName" : SignUpScreen2.nameController.text,
-    "UserImage" : SignUpScreen.imageDownloadUrl,
-    "UserPhoneNumber" : SignUpScreen.phoneNumber,
+    "AdminUID" : id ,
+     "AdminEmail" : SignUpScreen2.emailController.text.trim(),
+    "AdminName" : SignUpScreen2.nameController.text,
+    "AdminImage" : SignUpScreen.imageDownloadUrl,
+    "AdminPhoneNumber" : SignUpScreen.phoneNumber,
     "status" : "approved",
-    "UserStatus" : "on",
-    "UserPassword" : SignUpScreen2.passController.text,
+    "AdminStatus" : "on",
+    "AdminPassword" : SignUpScreen2.passController.text,
   });
   await sharedPreferences.setString("uid", id);
   await sharedPreferences.setString("name", SignUpScreen2.nameController.text);

@@ -1,25 +1,25 @@
 part of 'admin_bloc.dart';
 
 @immutable
-sealed class UserEvent extends Equatable {}
+sealed class AdminEvent extends Equatable {}
 
-final class  SignUpUserEvent extends UserEvent {
+final class  SignUpAdminEvent extends AdminEvent {
   final String email;
   final String password ;
-  SignUpUserEvent({required this.email , required this.password});
+  SignUpAdminEvent({required this.email , required this.password});
   @override
   List<Object?> get props => [email , password];
 }
 
-final class LogInUserEvent extends UserEvent {
+final class LogInAdminEvent extends AdminEvent {
   final String email  ;
   final String password ;
-  LogInUserEvent({required this.email , required this.password});
+  LogInAdminEvent({required this.email , required this.password});
   @override
   List<Object?> get props => [email , password];
 }
 
-final class SignOutUserEvent extends UserEvent {
+final class SignOutAdminEvent extends AdminEvent {
   @override
   List<Object?> get props => [];
 }

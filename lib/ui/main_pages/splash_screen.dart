@@ -30,8 +30,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   startTimer() async {
     Timer(const Duration(seconds: 5), () async {
-      auth.authStateChanges().listen((User? user) {
-        if (user != null && user.emailVerified) {
+      auth.authStateChanges().listen((User? Admin) {
+        if (Admin != null && Admin.emailVerified) {
           setState(() {
             SplashScreen.isLogin = true;
             if (_connectivityResult == ConnectivityResult.none){
@@ -43,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   MaterialPageRoute(builder: (context) => const HomeScreen()));
             }
           });
-        } else if (user == null || !user.emailVerified) {
+        } else if (Admin == null || !Admin.emailVerified) {
           setState(() {
             SplashScreen.isLogin = false;
             Navigator.push(context,
@@ -74,7 +74,7 @@ class _SplashScreenState extends State<SplashScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                  "C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter/lib/images/ecoWattLogobg.png",
+                  "C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/images/ecoWattLogobg.png",
                 width: MediaQuery.of(context).size.width * 0.30,
               ),
               const CircularProgressIndicator(color: Colors.red,),

@@ -3,11 +3,11 @@ class ReportModel {
   Timestamp publishedDate;
   String? reportID;
   String? userUID;
-  String? tasks;
-  String? constructionCosts;
-  int? kwc;
+  List<dynamic>? tasks;
+  double? constructionCosts;
+  double? kwc;
   String? observations;
-  List<String> people;
+  String? people;
 
   ReportModel({
     required this.people,
@@ -22,11 +22,11 @@ class ReportModel {
 
   factory ReportModel.fromJson(Map<String, dynamic> jsonData) {
     return ReportModel(
-      reportID: jsonData["reportID"],
+      reportID: jsonData["reportId"],
       userUID: jsonData["userUID"],
       publishedDate: jsonData["publishedDate"],
       tasks: jsonData["tasks"],
-      constructionCosts: jsonData["constructionCosts"],
+      constructionCosts: jsonData["constructionsCosts"],
       kwc: jsonData["kwc"],
       observations: jsonData["observations"],
       people: jsonData["people"],

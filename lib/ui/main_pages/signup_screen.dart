@@ -117,7 +117,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               Padding(
                 padding: const EdgeInsets.only(top: 0),
                 child: Image.asset(
-                  "C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter/lib/images/ecoWattLogobg.png",
+                  "C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/images/ecoWattLogobg.png",
                   width: 428,
                   height: 457,
                 ),
@@ -402,7 +402,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         //   listener: (context, state) async{
                         //     if (state is VerificationScreeOtpSuccessState){
                         //           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Congratilation Your Phone Verified Seccessfully")));
-                        //           debugPrint(firebaseUser?.uid);
+                        //           debugPrint(firebaseAdmin?.uid);
                         //     }else if (state is VPhoneLoadedState){
                         //       //TODO save imagePath to firebaseStorage
                         //         final filePath = SignUpScreen.imagePath;
@@ -413,7 +413,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         //         final Reference storageRef =
                         //         FirebaseStorage.instance.ref();
                         //         final imagePath = storageRef
-                        //             .child("Seller/${auth.currentUser?.uid}/image.jpeg");
+                        //             .child("Seller/${auth.currentAdmin?.uid}/image.jpeg");
                         //         UploadTask uploadTask = imagePath.putFile(file!, metadata);
                         //         uploadTask.whenComplete((){});
                         //         String url = await imagePath.getDownloadURL();
@@ -447,13 +447,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         //         });
                         //         //TODO save the info to FirebaseFireStore
                         //         if (SplashScreen.isLogin == true){
-                        //           debugPrint("firebaseUser != null -------------------");
+                        //           debugPrint("firebaseAdmin != null -------------------");
                         //           await _saveInfoToFireStore();
                         //           Navigator.of(context).push(
                         //               PageTransition(child: const HomeScreen(), type: PageTransitionType.rightToLeft)
                         //           );
                         //         }else {
-                        //           debugPrint("the firebaseUser == null .............................");
+                        //           debugPrint("the firebaseAdmin == null .............................");
                         //         }
                         //
                         //     }else if (state is VPhoneErrorState){

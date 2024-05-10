@@ -1,9 +1,9 @@
 import 'package:ecowatt_yassine_askour_flutter/bloc/admin_bloc.dart';
 import 'package:ecowatt_yassine_askour_flutter/ui/main_pages/splash_screen.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'bloc/bloc_observer.dart';
 import 'firebase_options.dart';
 import 'model/SharedPreferencesModel.dart';
@@ -11,6 +11,10 @@ import 'model/SharedPreferencesModel.dart';
 void main() async{
    WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+   await FirebaseAppCheck.instance.activate(
+     androidProvider: AndroidProvider.playIntegrity,
+     appleProvider: AppleProvider.appAttest,
+   );
   Bloc.observer = MyBlocObserver();
   SharedPreferencesService sharedPreferencesService =  SharedPreferencesService();
   await sharedPreferencesService.initialize();
@@ -25,9 +29,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
-          BlocProvider<UserBloc>(create: (context) => UserBloc()),
-          BlocProvider<SignUpBloc>(create: (context) => UserBloc()),
-          BlocProvider<LogInBloc>(create: (context) => UserBloc()),
+          BlocProvider<AdminBloc>(create: (context) => AdminBloc()),
+          BlocProvider<SignUpBloc>(create: (context) => AdminBloc()),
+          BlocProvider<LogInBloc>(create: (context) => AdminBloc()),
           BlocProvider(
             create: (context) => SwitchBloc(),
           ),
@@ -43,3 +47,4 @@ class MyApp extends StatelessWidget {
         ));
   }
 }
+/// todo  3b774aeb-9991-4010-b1ee-345dd94700f3 token

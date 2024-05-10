@@ -1,26 +1,26 @@
 part of 'admin_bloc.dart';
 
 @immutable
-sealed class UserState extends Equatable {}
+sealed class AdminState extends Equatable {}
 
-final class UserInitial extends UserState {
+final class AdminInitial extends AdminState {
   @override
   List<Object?> get props => [];
 }
-final class DataLoadingState extends UserState{
+final class DataLoadingState extends AdminState{
    final bool isLoading;
   DataLoadingState(this.isLoading);
   @override
   List<Object?> get props => [isLoading];
 }
-final class DataLoadedState extends UserState {
-  final UserModel userModel;
-   DataLoadedState(this.userModel);
+final class DataLoadedState extends AdminState {
+  final AdminModel adminModel;
+   DataLoadedState(this.adminModel);
   @override
-  List<Object?> get props => [userModel];
+  List<Object?> get props => [adminModel];
 }
 
-final class DataLoadingErrorSate extends UserState{
+final class DataLoadingErrorSate extends AdminState{
   final String? errorMessage ;
   DataLoadingErrorSate(this.errorMessage);
   @override

@@ -53,7 +53,7 @@ class _SingUpScreen2State extends State<SignUpScreen2> {
               Padding(
                 padding: const EdgeInsets.only(top: 0),
                 child: Image.asset(
-                  "C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter/lib/images/ecoWattLogobg.png",
+                  "C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/images/ecoWattLogobg.png",
                   width: 428,
                   height: 457,
                 ),
@@ -358,7 +358,7 @@ class _SingUpScreen2State extends State<SignUpScreen2> {
                       child: SizedBox(
                         width: 329,
                         height: 56,
-                        child: BlocConsumer<SignUpBloc, UserState>(
+                        child: BlocConsumer<SignUpBloc, AdminState>(
                           listener: (context, state) {
                             if (state is DataLoadedState) {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -386,7 +386,7 @@ class _SingUpScreen2State extends State<SignUpScreen2> {
                                       SignUpScreen2.repassController.text) {
                                     if (_globalKey.currentState!.validate()) {
                                       BlocProvider.of<SignUpBloc>(context).add(
-                                          SignUpUserEvent(
+                                          SignUpAdminEvent(
                                               email: SignUpScreen2
                                                   .emailController.text.trim(),
                                               password: SignUpScreen2
@@ -412,7 +412,7 @@ class _SingUpScreen2State extends State<SignUpScreen2> {
                                 },
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: const Color(0xff9F7BFF)),
-                                child: BlocBuilder<SignUpBloc, UserState>(
+                                child: BlocBuilder<SignUpBloc, AdminState>(
                                   builder: (context, state) {
                                     return state is DataLoadingState
                                         ? const CircularProgressIndicator()

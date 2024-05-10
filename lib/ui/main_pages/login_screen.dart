@@ -19,7 +19,7 @@ class LoginScreen extends StatefulWidget {
   static Future<void> getDataAndSetLocally(String id) async {
     if (savedContext != null){
       await firebaseFirestore
-          .collection("Users")
+          .collection("Admins")
           .doc(id)
           .get()
           .then((snapshot) async {
@@ -27,21 +27,21 @@ class LoginScreen extends StatefulWidget {
           SharedPreferences? sharedPreferences =  await SharedPreferences.getInstance();
           if (snapshot.data()!["status"] == "approved") {
             await sharedPreferences.setString("uid", id);
-            await sharedPreferences.setString("name", snapshot.data()!["UserName"]);
+            await sharedPreferences.setString("name", snapshot.data()!["AdminName"]);
             await sharedPreferences.setString(
-                "email", snapshot.data()!["UserEmail"]);
+                "email", snapshot.data()!["AdminEmail"]);
             await sharedPreferences.setInt(
                 "publishedDate", snapshot.data()!["publishedDate"]);
             await sharedPreferences.setString(
                 "dateOfCreateAccount", snapshot.data()!["dateOfCreateAccount"].toString());
             await sharedPreferences.setString(
-                "password", snapshot.data()!["UserPassword"]);
+                "password", snapshot.data()!["AdminPassword"]);
             await sharedPreferences.setString(
-                "image", snapshot.data()!["UserImage"]);
+                "image", snapshot.data()!["AdminImage"]);
             await sharedPreferences.setString(
-                "phoneNumber", snapshot.data()!["UserPhoneNumber"]);
+                "phoneNumber", snapshot.data()!["AdminPhoneNumber"]);
             await sharedPreferences.setString(
-                "UserStatus", snapshot.data()!["UserStatus"]);
+                "AdminStatus", snapshot.data()!["AdminStatus"]);
             await sharedPreferences.setString(
                 "status", snapshot.data()!["status"]);
             Navigator.pop(savedContext!);
@@ -122,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: Image.asset(
-                "C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter/lib/images/ecoWattLogobg.png",
+                "C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/images/ecoWattLogobg.png",
                 width: 413,
                 height: 457,
               ),
@@ -275,17 +275,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: SizedBox(
                         width: 329,
                         height: 56,
-                        child: BlocConsumer<LogInBloc, UserState>(
+                        child: BlocConsumer<LogInBloc, AdminState>(
                           listener: (context, state) async {
                             if (state is DataLoadedState) {
                               auth
                                   .authStateChanges()
-                                  .listen((User? user) async {
-                                if (user != null) {
-                                  debugPrint("-------------------------The user != null ------------------------------------------------------------");
-                                  if (user.emailVerified  == true ) {
+                                  .listen((User? Admin) async {
+                                if (Admin != null) {
+                                  debugPrint("-------------------------The Admin != null ------------------------------------------------------------");
+                                  if (Admin.emailVerified  == true ) {
                                     debugPrint(
-                                        "-----------------: ${user.emailVerified.toString()}");
+                                        "-----------------: ${Admin.emailVerified.toString()}");
                                     Navigator.of(context).push(
                                       PageTransition(
                                         child: const HomeScreen(),
@@ -312,7 +312,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                          content: Text("the user == null")));
+                                          content: Text("the Admin == null")));
                                 }
                               });
                             } else if (state is DataLoadingErrorSate) {
@@ -328,7 +328,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               onPressed: () async {
                                 if (_globalKey.currentState!.validate()) {
                                   BlocProvider.of<LogInBloc>(context).add(
-                                    LogInUserEvent(
+                                    LogInAdminEvent(
                                       email: _emailcontroller.text.trim(),
                                       password: _passwordcontroller.text.trim(),
                                     ),

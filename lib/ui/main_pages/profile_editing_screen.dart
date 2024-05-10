@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecowatt_yassine_askour_flutter/model/SharedPreferencesModel.dart';
+import 'package:ecowatt_yassine_askour_flutter/widgets/cached_network_image.dart';
 import 'package:ecowatt_yassine_askour_flutter/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -25,9 +26,9 @@ class _ProfileEditingScreenState extends State<ProfileEditingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.grey,
+        backgroundColor: Colors.white,
         title: Text("Edit Profile",
             style: GoogleFonts.acme(
                 textStyle: const TextStyle(color: Colors.white))),
@@ -38,17 +39,12 @@ class _ProfileEditingScreenState extends State<ProfileEditingScreen> {
           padding: const EdgeInsets.all(15),
           child: Column(
             children: [
-              CircleAvatar(
-                backgroundImage: NetworkImage(
-                    sharedPreferences!.getString("image").toString()),
-                minRadius: 70,
-                child: const Icon(Icons.add_a_photo_outlined),
-              ),
+              cachedNetworkImage(image: image, width: 140, height: 140),
               SizedBox(height: ScreenSize.height! * 0.015),
               CustomTextField(
                 borderRadius: BorderRadius.circular(30),
                 controller: nameController,
-                hintsText: sharedPreferences!.getString("name").toString(),
+                hintsText: name,
                 maxLines: 1,
                 prefixIcon: const Icon(Icons.person),
               ),
@@ -56,8 +52,7 @@ class _ProfileEditingScreenState extends State<ProfileEditingScreen> {
               CustomTextField(
                 borderRadius: BorderRadius.circular(30),
                 controller: numberController,
-                hintsText:
-                    sharedPreferences!.getString("phoneNumber").toString(),
+                hintsText: sharedPreferences!.getString("phoneNumber").toString(),
                 maxLines: 1,
                 prefixIcon: const Icon(Icons.phone),
               ),
@@ -65,7 +60,7 @@ class _ProfileEditingScreenState extends State<ProfileEditingScreen> {
               CustomTextField(
                 borderRadius: BorderRadius.circular(30),
                 controller: emailController,
-                hintsText: sharedPreferences!.getString("email"),
+                hintsText: email,
                 maxLines: 1,
                 prefixIcon: const Icon(Icons.email),
               ),
@@ -74,8 +69,7 @@ class _ProfileEditingScreenState extends State<ProfileEditingScreen> {
                   borderRadius: BorderRadius.circular(30),
                   controller: passwordController,
                   suffixIcon: const Icon(Icons.remove_red_eye),
-                  hintsText:
-                      sharedPreferences!.getString("password").toString(),
+                  hintsText:password,
                   maxLines: 1,
                   prefixIcon: const Icon(Icons.password)),
               SizedBox(height: ScreenSize.height! * 0.09),
@@ -94,15 +88,22 @@ class _ProfileEditingScreenState extends State<ProfileEditingScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Text(sharedPreferences!.getString("dateOfCreateAccount")!, style: GoogleFonts.acme(),),
+                  Text(
+                    dateOfCreateAccount,
+                    style: GoogleFonts.acme(),
+                  ),
                   TextButton(
-                      onPressed: () {},
-                      child: Text("Delete Account",
-                          style: GoogleFonts.acme(
-                              textStyle: const TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 15,
-                              ))))
+                    onPressed: () {},
+                    child: Text(
+                      "Delete Account",
+                      style: GoogleFonts.acme(
+                        textStyle: const TextStyle(
+                          color: Colors.red,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               )
             ],
