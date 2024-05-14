@@ -274,7 +274,7 @@ Widget customDrawer (BuildContext context){
                 ),
               );
             },
-            leading: const Icon(Icons.person),
+            leading: const Icon(Icons.logout),
             title: const Text('Sign Out'),
           ),
           const Spacer(),

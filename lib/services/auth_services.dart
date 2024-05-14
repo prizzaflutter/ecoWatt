@@ -34,15 +34,14 @@ class AuthService {
     }
     return null;
   }
-  Future<AdminModel?> logInAdmin (String email , String password)async {
+  Future<AdminModel?> logInAdmin (String email , String password ,  {required BuildContext context})async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-
     try{
       final UserCredential userCredential = await auth.signInWithEmailAndPassword(email: email.trim(), password: password.trim());
       final User? firebaseAdmin = userCredential.user;
       if (firebaseAdmin != null){
         debugPrint("firebaseAdmin != null -------------------------------");
-        await LoginScreen.getDataAndSetLocally(firebaseAdmin.uid);
+        await LoginScreen.getDataAndSetLocally(firebaseAdmin.uid, context : context);
         return  AdminModel(
           adminUID: firebaseAdmin.uid,
           adminEmail: firebaseAdmin.email,

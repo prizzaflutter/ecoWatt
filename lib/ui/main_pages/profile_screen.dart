@@ -60,6 +60,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         drawer: customDrawer(context),
         child: Scaffold(
           appBar: CustomAppBar(
+            pageName: Text("Profile"),
+            showSwitch: true,
+            action: Icon(Icons.search),
             isOn: true,
             leading: IconButton(
               onPressed: ()=> handleMenuButtonPressed(_advancedDrawerController),

@@ -1,9 +1,10 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:ecowatt_yassine_askour_flutter/widgets/advanced_drawer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 import '../../global/global.dart';
-import '../../widgets/custom_appBar.dart';
-import '../../widgets/custom_drawer.dart';
+
 class AboutUsScreen extends StatefulWidget {
   const AboutUsScreen({super.key});
 
@@ -12,7 +13,8 @@ class AboutUsScreen extends StatefulWidget {
 }
 
 class _AboutUsScreenState extends State<AboutUsScreen> {
-  final _advancedDrawerController = AdvancedDrawerController();
+  final AdvancedDrawerController _advancedDrawerController =
+      AdvancedDrawerController();
 
   @override
   void initState() {
@@ -22,55 +24,188 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
   @override
   Widget build(BuildContext context) {
     ScreenSize.size(context);
-    return AdvancedDrawer(
-        backdrop: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [Colors.blueGrey, Colors.blueGrey.withOpacity(0.2)],
-            ),
-          ),
-        ),
+    return advancedDrawerWidget(
+      showSwitch: true,
+        action: Text(""),
+        isAppBar: false,
+        context: context,
         controller: _advancedDrawerController,
-        animationCurve: Curves.easeInOut,
-        animationDuration: const Duration(milliseconds: 300),
-        animateChildDecoration: true,
-        rtlOpening: false,
-        // openScale: 1.0,
-        disabledGestures: false,
-        childDecoration: const BoxDecoration(
-          // NOTICE: Uncomment if you want to add shadow behind the page.
-          // Keep in mind that it may cause animation jerks.
-          // boxShadow: <BoxShadow>[
-          //   BoxShadow(
-          //     color: Colors.black12,
-          //     blurRadius: 0.0,
-          //   ),
-          // ],
-          borderRadius: BorderRadius.all(Radius.circular(16)),
-        ),
-        drawer: customDrawer(context),
-        child: Scaffold(
-          appBar: CustomAppBar(
-            isOn: true,
-            leading: IconButton(
-              onPressed: ()=> handleMenuButtonPressed(_advancedDrawerController),
-              icon: ValueListenableBuilder<AdvancedDrawerValue>(
-                valueListenable: _advancedDrawerController,
-                builder: (_, value, __) {
-                  return AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 250),
-                      child: Icon(value.visible ? Icons.clear : Icons.menu),
-                      key: ValueKey<bool>(value.visible));
-                },
-              ),
-            ),
+        body: Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: true,
           ),
-          body: const  Center(child: Text("About us")),
+          body: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    const Center(
+                      child: CircleAvatar(
+                        radius: 60,
+                        backgroundImage: AssetImage(
+                            "C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/images/Dyassine.png"),
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "YASSINE ALJ",
+                          style: GoogleFonts.acme(
+                              textStyle: const TextStyle(fontSize: 20)),
+                        ),
+                        Text("Directeur Development",
+                            style: GoogleFonts.aBeeZee())
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    const Center(
+                      child: CircleAvatar(
+                        radius: 60,
+                        backgroundImage: AssetImage(
+                            "C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/images/yassine.png"),
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "YASSINE INDJARNE",
+                          style: GoogleFonts.acme(
+                              textStyle: const TextStyle(fontSize: 20)),
+                        ),
+                        Text("Office manager", style: GoogleFonts.aBeeZee()),
+                        Text("The owner of the idea",
+                            style: GoogleFonts.aBeeZee())
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    const Center(
+                      child: CircleAvatar(
+                        radius: 60,
+                        backgroundImage: AssetImage(
+                            "C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/images/Askour1.jpg"),
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "IDRISS ASKOUR            ",
+                          style: GoogleFonts.acme(
+                              textStyle: const TextStyle(fontSize: 20)),
+                        ),
+                        Text("flutter developer", style: GoogleFonts.aBeeZee())
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "    About us",
+                  style: GoogleFonts.acme(
+                    textStyle: const TextStyle(fontSize: 25.0),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: ListView(
+                  padding: EdgeInsets.all(8.0),
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade100,
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      width: ScreenSize.width! * 0.1,
+                      height: ScreenSize.height! * 0.36,
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              AnimatedTextKit(
+                                animatedTexts: [
+                                  TypewriterAnimatedText(
+                                      "TAQAUNIVERS",textStyle: const TextStyle(fontSize: 30,),),
+                                ],
+                              ),
+                              AnimatedTextKit(
+                                totalRepeatCount: 2,
+                                animatedTexts: [
+                          
+                                  TypewriterAnimatedText(
+                                      "       presents itself as a Moroccan company expert "
+                                          "in the fields of industrial electricity and solar energy,"
+                                          " having its headquarters in Agadir and extending its scope "
+                                          "to several cities and regions of the Kingdom, notably Agadir, "
+                                          "Marrakech, Beni Mellal , Rabat, Meknes, Fez, Oujda and Er-Rachidia."
+                                          "The range of services offered by TAQAUNIVERS is aimed at a diverse "
+                                          "clientele operating in various sectors, including businesses and industries,"
+                                          " agricultural operations, communities and private collective buildings, as well"
+                                          " as social and hospital establishments. With a reach also extended to academic "
+                                          "establishments, TAQAUNIVERS positions itself as a complete service provider, meeting "
+                                          "the energy needs of individuals and professional entities with extensive expertise and a "
+                                          "commitment to quality."),
+                                ],
+                              )
+                            ],
+                          ),
+                        )
+                      ),
+                    ),
+                  ],
+                ),
+              )
+              // Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: ImageSlideshow(
+              //     disableUserScrolling: false,
+              //     indicatorPadding: 20,
+              //     autoPlayInterval: 5000,
+              //     indicatorColor: Colors.red,
+              //     indicatorRadius: 8.0,
+              //     height: ScreenSize.height! * 0.3,
+              //     children: [
+              //       ClipRRect(
+              //         borderRadius: const BorderRadius.all(Radius.circular(30)),
+              //         child: Text("TAQAUNIVERS presents itself as a Moroccan company expert in the fields of industrial electricity and solar energy, having its headquarters in Agadir and extending its scope to several cities and regions of the Kingdom, notably Agadir, Marrakech, Beni Mellal , Rabat, Meknes, Fez, Oujda and Er-Rachidia.", style : GoogleFonts.aBeeZee()),
+              //       ),
+              //       ClipRRect(
+              //         borderRadius: const BorderRadius.all(Radius.circular(30)),
+              //         child: Image.asset(
+              //             "C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/images/ecoWattBanner1.jpeg",
+              //             fit: BoxFit.cover),
+              //       ),
+              //       ClipRRect(
+              //         borderRadius: const BorderRadius.all(Radius.circular(30)),
+              //         child: Image.asset(
+              //             "C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/images/ecoWattBanner2.jpeg",
+              //             fit: BoxFit.cover),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+            ],
+          ),
         ));
   }
-
 }

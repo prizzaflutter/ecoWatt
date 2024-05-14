@@ -1,96 +1,139 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecowatt_yassine_askour_flutter/global/global.dart';
 import 'package:ecowatt_yassine_askour_flutter/model/user_model.dart';
-import 'package:ecowatt_yassine_askour_flutter/widgets/custom_appBar.dart';
-import 'package:ecowatt_yassine_askour_flutter/widgets/custom_drawer.dart';
+import 'package:ecowatt_yassine_askour_flutter/widgets/advanced_drawer_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import '../../widgets/user_report_design_widget.dart';
 
 class NewReportScreen extends StatefulWidget {
   const NewReportScreen({super.key});
-
+  static String? userUID ;
   @override
   State<NewReportScreen> createState() => _NewReportScreenState();
 }
+class _NewReportScreenState extends State<NewReportScreen> {
+  Stream<QuerySnapshot>? searchUserList;
+  initSearchMenus (String? textEntered) async{
+    searchUserList = await firebaseFirestore.collection("Users").where("UserName" , isGreaterThanOrEqualTo: textEntered).snapshots();
+  }
 
-class _NewReportScreenState extends State<NewReportScreen> { final _advancedDrawerController = AdvancedDrawerController();
+  final _advancedDrawerController = AdvancedDrawerController();
+  final List<UserModel> _searchUser = [];
+  bool _isSearching = false;
+  TextEditingController searchController = TextEditingController();
+  String? textEntered;
 
-@override
-void initState() {
-  super.initState();
-}
+  @override
+  void initState() {
+    super.initState();
+  }
 
-@override
-Widget build(BuildContext context) {
-  ScreenSize.size(context);
-  return AdvancedDrawer(
-      backdrop: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Colors.blueGrey, Colors.blueGrey.withOpacity(0.2)],
-          ),
-        ),
-      ),
+  @override
+  Widget build(BuildContext context) {
+    ScreenSize.size(context);
+    return advancedDrawerWidget(
+      showSwitch: false,
+      action: IconButton(
+          onPressed: () {
+            setState(() {
+              _isSearching = !_isSearching;
+            });
+          },
+          icon: Icon(_isSearching
+              ? CupertinoIcons.clear_circled_solid
+              : Icons.search)),
+      context: context,
       controller: _advancedDrawerController,
-      animationCurve: Curves.easeInOut,
-      animationDuration: const Duration(milliseconds: 300),
-      animateChildDecoration: true,
-      rtlOpening: false,
-      // openScale: 1.0,
-      disabledGestures: false,
-      childDecoration: const BoxDecoration(
-        // NOTICE: Uncomment if you want to add shadow behind the page.
-        // Keep in mind that it may cause animation jerks.
-        // boxShadow: <BoxShadow>[
-        //   BoxShadow(
-        //     color: Colors.black12,
-        //     blurRadius: 0.0,
-        //   ),
-        // ],
-        borderRadius: BorderRadius.all(Radius.circular(16)),
-      ),
-      drawer: customDrawer(context),
-      child: Scaffold(
-        appBar: CustomAppBar(
-          isOn: true,
-          leading: IconButton(
-            onPressed: ()=> handleMenuButtonPressed(_advancedDrawerController),
-            icon: ValueListenableBuilder<AdvancedDrawerValue>(
-              valueListenable: _advancedDrawerController,
-              builder: (_, value, __) {
-                return AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 250),
-                    key: ValueKey<bool>(value.visible),
-                    child: Icon(value.visible ? Icons.clear : Icons.menu));
+      body: _isSearching
+          ? StreamBuilder(
+              stream: searchUserList,
+              builder: (context, snapshot) {
+                switch (snapshot.connectionState) {
+                  // if data is loading
+                  case ConnectionState.waiting:
+                  case ConnectionState.none:
+                    return const Center(child: CircularProgressIndicator());
+
+                  // if some or all data is loaded the show it
+
+                  case ConnectionState.active:
+                  case ConnectionState.done:
+                    return snapshot.data!.docs.length != 0
+                        ? SizedBox(
+                            child: ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                itemCount: snapshot.data!.docs.length,
+                                itemBuilder: (context, index) {
+                                  UserModel userModel = UserModel.fromJson(
+                                      snapshot.data!.docs[index].data()
+                                          as Map<String, dynamic>);
+                                  return AdminReportDesignWidget(
+                                    userModel: userModel,
+                                    context: context,
+                                  );
+                                }),
+                          )
+                        : Center(child: Text("No User Found"));
+                }
+              },
+            )
+          : StreamBuilder(
+              stream: firebaseFirestore.collection("Users").snapshots(),
+              builder: (context, snapshot) {
+                switch (snapshot.connectionState) {
+                  // if data is loading
+                  case ConnectionState.waiting:
+                  case ConnectionState.none:
+                    return const Center(child: CircularProgressIndicator());
+
+                  // if some or all data is loaded the show it
+
+                  case ConnectionState.active:
+                  case ConnectionState.done:
+                    return snapshot.data!.docs.length != 0
+                        ? SizedBox(
+                            child: ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                itemCount: _isSearching
+                                    ? _searchUser.length
+                                    : snapshot.data!.docs.length,
+                                itemBuilder: (context, index) {
+                                  UserModel userModel = UserModel.fromJson(
+                                      snapshot.data!.docs[index].data());
+                                  return AdminReportDesignWidget(
+                                    userModel: userModel,
+                                    context: context,
+                                  );
+                                }),
+                          )
+                        : Center(child: Text("No User Found"));
+                }
               },
             ),
-          ),
-        ),
-        body:  StreamBuilder(
-          stream: firebaseFirestore.collection("Users").snapshots(),
-          builder: (context,snapshot){
-            return !snapshot.hasData ? const Center(child:CircularProgressIndicator())
-                : SizedBox(
-              child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount: snapshot.data!.docs.length,
-                  itemBuilder: (context,index){
-                    UserModel userModel = UserModel.fromJson(snapshot.data!.docs[index].data());
-                    return AdminReportDesignWidget(
-                      userModel : userModel,
-                      context : context,
-                    );
-                  } ),
-            );
-          },
-        ),
-      ));
+      isAppBar: true,
+      pageNmae: _isSearching
+          ? TextField(
+              controller: searchController,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: "Name, email, ...",
+              ),
+              autofocus: true,
+              style: TextStyle(
+                fontSize: 17,
+                letterSpacing: 0.5,
+              ),
+              // When search text changes the updated search List
+              onChanged: (value)async {
+                setState(() {
+                  textEntered = value;
+                });
+                await initSearchMenus(value);
+              },
+            )
+          : Center(child: Text("Report")),
+    );
+  }
 }
-
-
-}
-

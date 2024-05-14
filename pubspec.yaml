@@ -60,10 +60,23 @@ dependencies:
   firebase_app_check: ^0.2.2+5
   cached_network_image: ^3.3.1
   sqflite: ^2.3.3+1
+  animated_text_kit: ^4.2.2
+  bottom_sheet: ^4.0.4
+  card_swiper: ^3.0.1
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  flutter_launcher_icons: ^0.13.1
+
+flutter_icons:
+  android: "ic_launcher"
+  ios: true
+  image_path: "C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/images/AppIcon.png"
+  min_sdk_android: 21
+  remove_alpha_ios: true
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -94,6 +107,21 @@ flutter:
     - C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/icon/dots.png
     - C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/icon/pdf.png
     - C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/icon/phone.png
+    - C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/images/Dyassine.png
+    - C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/images/yassine.png
+    - C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/images/Askour.jpg
+    - C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/images/Askour1.jpg
+    - C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/images/AppIcon.png
+    - C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/image/AYOUB_BENBAHA.png
+    - C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/image/AZIZ_EL_GOUARIR.png
+    - C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/image/HAMID_BOULASSAIR.png
+    - C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/image/HASSAN_CHELIH.png
+    - C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/image/JASSIM_CHAFAI.png
+    - C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/image/M.AMINE_BOURAS.png
+    - C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/image/MBAREK_MAAYOUF.png
+    - C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/image/MOHAMED_EL_FIRAR.png
+    - C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/image/MOHAMED_LAHMIDI.png
+    - C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/image/WALID_TELBANI.png
 
   #   - images/a_dot_ham.jpeg
 

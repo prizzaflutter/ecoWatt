@@ -44,10 +44,11 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> with SignUpBloc , LogInBloc
     }
   }
 FutureOr<void> _logInAdminEvent(
-    LogInAdminEvent event, Emitter<AdminState> emit ) async {
+    LogInAdminEvent event,
+  Emitter<AdminState> emit, ) async {
   emit(DataLoadingState(true));
   try {
-    final AdminModel? admin = await authService.logInAdmin(event.email, event.password);
+    final AdminModel? admin = await authService.logInAdmin(event.email, event.password, context : event.context);
     if (admin != null) {
       debugPrint("Admin!=null------------------------------------------------");
       emit(DataLoadedState(admin));

@@ -16,74 +16,69 @@ class LoginScreen extends StatefulWidget {
 
 
   // get the data and set to locally
-  static Future<void> getDataAndSetLocally(String id) async {
-    if (savedContext != null){
-      await firebaseFirestore
-          .collection("Admins")
-          .doc(id)
-          .get()
-          .then((snapshot) async {
-        if (snapshot.exists) {
-          SharedPreferences? sharedPreferences =  await SharedPreferences.getInstance();
-          if (snapshot.data()!["status"] == "approved") {
-            await sharedPreferences.setString("uid", id);
-            await sharedPreferences.setString("name", snapshot.data()!["AdminName"]);
-            await sharedPreferences.setString(
-                "email", snapshot.data()!["AdminEmail"]);
-            await sharedPreferences.setInt(
-                "publishedDate", snapshot.data()!["publishedDate"]);
-            await sharedPreferences.setString(
-                "dateOfCreateAccount", snapshot.data()!["dateOfCreateAccount"].toString());
-            await sharedPreferences.setString(
-                "password", snapshot.data()!["AdminPassword"]);
-            await sharedPreferences.setString(
-                "image", snapshot.data()!["AdminImage"]);
-            await sharedPreferences.setString(
-                "phoneNumber", snapshot.data()!["AdminPhoneNumber"]);
-            await sharedPreferences.setString(
-                "AdminStatus", snapshot.data()!["AdminStatus"]);
-            await sharedPreferences.setString(
-                "status", snapshot.data()!["status"]);
-            Navigator.pop(savedContext!);
-            // Navigator.of(savedContext!).push(
-            //   PageTransition(
-            //     child: const HomeScreen(),
-            //     type: PageTransitionType.rightToLeft,
-            //     duration: const Duration(milliseconds: 300),
-            //     reverseDuration: const Duration(milliseconds: 300),
-            //   ),
-            // );
-          } else {
-            Navigator.pop(savedContext!);
-            debugPrint("You account has been blocked");
-            ScaffoldMessenger.of(savedContext!).showSnackBar(
-                const SnackBar(content: Text("You account has been blocked")));
-          }
-        } else {
-          debugPrint("Snapshot doesn't exist");
-          auth.signOut();
+  static Future<void> getDataAndSetLocally(String id,{required BuildContext context}) async {
+    await firebaseFirestore
+        .collection("Admins")
+        .doc(id)
+        .get()
+        .then((snapshot) async {
+      if (snapshot.exists) {
+        SharedPreferences? sharedPreferences =  await SharedPreferences.getInstance();
+        if (snapshot.data()!["status"] == "approved"){
+          await sharedPreferences.setString("uid", id);
+          await sharedPreferences.setString("name", snapshot.data()!["AdminName"]);
+          await sharedPreferences.setString(
+              "email", snapshot.data()!["AdminEmail"]);
+          await sharedPreferences.setInt(
+              "publishedDate", snapshot.data()!["publishedDate"]);
+          await sharedPreferences.setString(
+              "dateOfCreateAccount", snapshot.data()!["dateOfCreateAccount"].toString());
+          await sharedPreferences.setString(
+              "password", snapshot.data()!["AdminPassword"]);
+          await sharedPreferences.setString(
+              "image", snapshot.data()!["AdminImage"]);
+          await sharedPreferences.setString(
+              "phoneNumber", snapshot.data()!["AdminPhoneNumber"]);
+          await sharedPreferences.setString(
+              "AdminStatus", snapshot.data()!["AdminStatus"]);
+          await sharedPreferences.setString(
+              "status", snapshot.data()!["status"]);
           Navigator.pop(savedContext!);
-          Navigator.of(savedContext!).push(
-            PageTransition(
-              child: const LoginScreen(),
-              type: PageTransitionType.rightToLeft,
-              duration: const Duration(milliseconds: 300),
-              reverseDuration: const Duration(milliseconds: 300),
-            ),
-          );
-          showDialog(
-              context: savedContext!,
-              builder: (context) {
-                return const  Dialog(
-                  child: Text("Error From Dialog"),
-                );
-              });
+          // Navigator.of(savedContext!).push(
+          //   PageTransition(
+          //     child: const HomeScreen(),
+          //     type: PageTransitionType.rightToLeft,
+          //     duration: const Duration(milliseconds: 300),
+          //     reverseDuration: const Duration(milliseconds: 300),
+          //   ),
+          // );
+        } else {
+          Navigator.pop(savedContext!);
+          debugPrint("You account has been blocked");
+          ScaffoldMessenger.of(savedContext!).showSnackBar(
+              const SnackBar(content: Text("You account has been blocked")));
         }
-      });
-    }else {
-      debugPrint("context not available");
-      throw Exception("context not available");
-    }
+      } else {
+        debugPrint("Snapshot doesn't exist");
+        auth.signOut();
+        Navigator.pop(savedContext!);
+        Navigator.of(savedContext!).push(
+          PageTransition(
+            child: const LoginScreen(),
+            type: PageTransitionType.rightToLeft,
+            duration: const Duration(milliseconds: 300),
+            reverseDuration: const Duration(milliseconds: 300),
+          ),
+        );
+        showDialog(
+            context: savedContext!,
+            builder: (context) {
+              return const  Dialog(
+                child: Text("Error From Dialog"),
+              );
+            });
+      }
+    });
   }
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -110,9 +105,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    setState(() {
-      LoginScreen.savedContext = context;
-    });
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -327,8 +319,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             return ElevatedButton(
                               onPressed: () async {
                                 if (_globalKey.currentState!.validate()) {
+                                  LoginScreen.savedContext = context;
                                   BlocProvider.of<LogInBloc>(context).add(
                                     LogInAdminEvent(
+                                      context: context,
                                       email: _emailcontroller.text.trim(),
                                       password: _passwordcontroller.text.trim(),
                                     ),

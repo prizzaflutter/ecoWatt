@@ -20,7 +20,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   List<ConnectivityResult>? _connectivityResult;
-
+  late Timer _myTimer;
   Future<void> checkConnectivity() async {
     var connectivityResult = await Connectivity().checkConnectivity();
     setState(() {
@@ -29,20 +29,22 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   startTimer() async {
-    Timer(const Duration(seconds: 5), () async {
+    _myTimer = Timer(const Duration(seconds: 5), () async {
       auth.authStateChanges().listen((User? Admin) {
         if (Admin != null && Admin.emailVerified) {
-          setState(() {
-            SplashScreen.isLogin = true;
-            if (_connectivityResult == ConnectivityResult.none){
-              Navigator.of(context).pushReplacement(
-                PageTransition(child: const NoConnectionScreen(), type: PageTransitionType.rightToLeft),
-              );
-            }else {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()));
-            }
-          });
+          if (mounted){
+            setState(() {
+              SplashScreen.isLogin = true;
+              if (_connectivityResult == ConnectivityResult.none){
+                Navigator.of(context).pushReplacement(
+                  PageTransition(child: const NoConnectionScreen(), type: PageTransitionType.rightToLeft),
+                );
+              }else {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const HomeScreen()));
+              }
+            });
+          }
         } else if (Admin == null || !Admin.emailVerified) {
           setState(() {
             SplashScreen.isLogin = false;
@@ -61,7 +63,11 @@ class _SplashScreenState extends State<SplashScreen> {
     startTimer();
     super.initState();
   }
-
+@override
+  void dispose() {
+   _myTimer.cancel();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

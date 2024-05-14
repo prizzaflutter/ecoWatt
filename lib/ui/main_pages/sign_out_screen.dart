@@ -4,6 +4,8 @@ import 'package:ecowatt_yassine_askour_flutter/widgets/advanced_drawer_widget.da
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 
+import 'home_page.dart';
+
 class SignOutScreen extends StatefulWidget {
   const SignOutScreen({super.key});
 
@@ -16,6 +18,8 @@ class _SignOutScreenState extends State<SignOutScreen> {
   Widget build(BuildContext context) {
     AdvancedDrawerController controller = AdvancedDrawerController();
     return advancedDrawerWidget(
+      showSwitch: true,
+      action: Text(""),
       isAppBar: false,
         context: context, controller: controller, body: Center(
       child :Column(
@@ -28,7 +32,7 @@ class _SignOutScreenState extends State<SignOutScreen> {
                 TextButton(onPressed: (){
                   auth.signOut().then((value){
                     Navigator.of(context).pushAndRemoveUntil(PageRouteBuilder(
-                      pageBuilder: (context,animation,secondaryAnimation)=> SplashScreen(),
+                      pageBuilder: (context,animation,secondaryAnimation)=>const SplashScreen(),
                      transitionsBuilder: (context, animation , secondaryAnimation, child ){
                         return FadeTransition(opacity: animation , child:  child,);
 
@@ -38,6 +42,27 @@ class _SignOutScreenState extends State<SignOutScreen> {
                 }, child:  const Text("Yes")),
                 TextButton(onPressed: (){
                   Navigator.of(context).pop();
+                  Navigator.of(context).push(
+                    PageRouteBuilder(
+                      pageBuilder:
+                          (context, animation, secondaryAnimation) =>
+                      const HomeScreen(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        // const begin = Offset(1.0, 0.0);
+                        // const end = Offset.zero;
+                        // const curve = Curves.easeInOut;
+                        // var tween = Tween(begin: begin, end: end)
+                        //     .chain(CurveTween(curve: curve));
+                        // var offsetAnimation = animation.drive(tween);
+                        return FadeTransition(
+                            opacity: animation, child: child);
+                      },
+                      transitionDuration: const Duration(milliseconds: 600),
+                      reverseTransitionDuration: const Duration(milliseconds: 600),
+                    ),
+                  );
+
                 }, child: const Text("No"))
               ],
             ),
