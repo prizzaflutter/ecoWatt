@@ -24,3 +24,11 @@ final class SignOutAdminEvent extends AdminEvent {
   @override
   List<Object?> get props => [];
 }
+
+
+//----------------------------------------
+
+final class  GetReportEvent extends Equatable{
+  @override
+  List<Object?> get props => [];
+}

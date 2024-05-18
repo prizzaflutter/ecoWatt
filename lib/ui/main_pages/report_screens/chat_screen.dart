@@ -1,16 +1,11 @@
 import 'package:ecowatt_yassine_askour_flutter/model/user_model.dart';
-import 'package:ecowatt_yassine_askour_flutter/widgets/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:page_transition/page_transition.dart';
-
-import '../../global/global.dart';
-import '../../model/messages_model.dart';
-import '../../widgets/chat_input_widget.dart';
-import '../../widgets/message_card_widget.dart';
-import 'friend_profile_screen.dart';
-
+import '../../../global/global.dart';
+import '../../../model/messages_model.dart';
+import '../../../widgets/report_screens_widgets/chat_input_widget.dart';
+import '../../../widgets/report_screens_widgets/message_card_widget.dart';
 class chatScreen extends StatefulWidget {
   final BuildContext context;
   final UserModel userModel;
@@ -118,7 +113,7 @@ class _chatScreenState extends State<chatScreen> {
                   child: Container(
                     height: ScreenSize.height! * 0.5,
                     child: StreamBuilder(
-                      stream: getAllMessages(uid),
+                      stream: getAllMessages(widget.userModel.userUID.toString()),
                       builder: (context, snapshot) {
                         switch (snapshot.connectionState) {
                           // if data is loading
@@ -133,6 +128,7 @@ class _chatScreenState extends State<chatScreen> {
                           case ConnectionState.done:
                             return snapshot.data!.docs.length != 0
                                 ? ListView.builder(
+                              reverse:  false ,
                                     scrollDirection: Axis.vertical,
                                     itemCount: snapshot.data!.docs.length,
                                     itemBuilder: (context, index) {
@@ -148,7 +144,7 @@ class _chatScreenState extends State<chatScreen> {
                     ),
                   ),
                 ),
-                chatInputWidget(context: context, controller: widget.controller),
+                chatInputWidget(context: context, controller: widget.controller , userModel : widget.userModel),
               ],
             ),
           )),

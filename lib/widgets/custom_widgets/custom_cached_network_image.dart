@@ -1,13 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-Widget cachedNetworkImage ({required String image,double? width, double? height}){
+Widget cachedNetworkImage ({required String image,double? width, double? height , BoxShape? shape}){
   return  CachedNetworkImage(
     width: width ?? 100,
     height: height ?? 100,
     imageUrl: image,
     imageBuilder: (context, imageProvider)=> Container (
       decoration: BoxDecoration(
-          shape: BoxShape.circle,
+          shape: shape ?? BoxShape.circle,
           image: DecorationImage(
             image: imageProvider,
             fit: BoxFit.cover,

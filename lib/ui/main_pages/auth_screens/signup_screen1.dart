@@ -1,11 +1,11 @@
 
 import 'package:ecowatt_yassine_askour_flutter/bloc/admin_bloc.dart';
-import 'package:ecowatt_yassine_askour_flutter/ui/main_pages/login_screen.dart';
+import 'package:ecowatt_yassine_askour_flutter/ui/main_pages/auth_screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:page_transition/page_transition.dart';
 
-import '../../widgets/email_password_validator.dart';
+import '../../../widgets/email_password_validator.dart';
 
 class SignUpScreen2 extends StatefulWidget {
   const SignUpScreen2({super.key});
@@ -53,7 +53,7 @@ class _SingUpScreen2State extends State<SignUpScreen2> {
               Padding(
                 padding: const EdgeInsets.only(top: 0),
                 child: Image.asset(
-                  "C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/images/ecoWattLogobg.png",
+                  "C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/images/TAQAUNIVERSLOGO.png",
                   width: 428,
                   height: 457,
                 ),

@@ -1,39 +1,59 @@
+
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecowatt_yassine_askour_flutter/global/global.dart';
-import 'package:ecowatt_yassine_askour_flutter/model/user_model.dart';
-import 'package:ecowatt_yassine_askour_flutter/widgets/advanced_drawer_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
-import '../../widgets/user_report_design_widget.dart';
+import '../../../global/global.dart';
+import '../../../model/user_model.dart';
+import '../../../widgets/custom_widgets/custom_advanced_drawer_widget.dart';
+import '../../../widgets/report_screens_widgets/user_card_desgin_widget.dart';
 
 class NewReportScreen extends StatefulWidget {
   const NewReportScreen({super.key});
-  static String? userUID ;
   @override
   State<NewReportScreen> createState() => _NewReportScreenState();
 }
 class _NewReportScreenState extends State<NewReportScreen> {
+
+  // todo : get list of the user that connect && search by User Name
   Stream<QuerySnapshot>? searchUserList;
   initSearchMenus (String? textEntered) async{
     searchUserList = await firebaseFirestore.collection("Users").where("UserName" , isGreaterThanOrEqualTo: textEntered).snapshots();
   }
+  // todo : --------------------------------------------------------
 
-  final _advancedDrawerController = AdvancedDrawerController();
-  final List<UserModel> _searchUser = [];
   bool _isSearching = false;
-  TextEditingController searchController = TextEditingController();
   String? textEntered;
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  final  _advancedDrawerController = AdvancedDrawerController();
+  final  searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     ScreenSize.size(context);
     return advancedDrawerWidget(
+      isAppBar: true,
+      pageNmae: _isSearching
+          ? TextField(
+        controller: searchController,
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          hintText: "Name, email, ...",
+        ),
+        autofocus: true,
+        style: TextStyle(
+          fontSize: 17,
+          letterSpacing: 0.5,
+        ),
+        // When search text changes the updated search List
+        onChanged: (value)async {
+          setState(() {
+            textEntered = value;
+          });
+          await initSearchMenus(value);
+        },
+      )
+          : Center(child: Text("Report")),
       showSwitch: false,
       action: IconButton(
           onPressed: () {
@@ -46,6 +66,8 @@ class _NewReportScreenState extends State<NewReportScreen> {
               : Icons.search)),
       context: context,
       controller: _advancedDrawerController,
+
+      // todo : i check if the _isSearching == true ? show the Stream of user with UserName == textEntered : show stream of all user
       body: _isSearching
           ? StreamBuilder(
               stream: searchUserList,
@@ -55,9 +77,7 @@ class _NewReportScreenState extends State<NewReportScreen> {
                   case ConnectionState.waiting:
                   case ConnectionState.none:
                     return const Center(child: CircularProgressIndicator());
-
                   // if some or all data is loaded the show it
-
                   case ConnectionState.active:
                   case ConnectionState.done:
                     return snapshot.data!.docs.length != 0
@@ -69,7 +89,7 @@ class _NewReportScreenState extends State<NewReportScreen> {
                                   UserModel userModel = UserModel.fromJson(
                                       snapshot.data!.docs[index].data()
                                           as Map<String, dynamic>);
-                                  return AdminReportDesignWidget(
+                                  return userCardDesignWidget(
                                     userModel: userModel,
                                     context: context,
                                   );
@@ -96,13 +116,11 @@ class _NewReportScreenState extends State<NewReportScreen> {
                         ? SizedBox(
                             child: ListView.builder(
                                 scrollDirection: Axis.vertical,
-                                itemCount: _isSearching
-                                    ? _searchUser.length
-                                    : snapshot.data!.docs.length,
+                                itemCount:  snapshot.data!.docs.length,
                                 itemBuilder: (context, index) {
                                   UserModel userModel = UserModel.fromJson(
                                       snapshot.data!.docs[index].data());
-                                  return AdminReportDesignWidget(
+                                  return userCardDesignWidget(
                                     userModel: userModel,
                                     context: context,
                                   );
@@ -112,28 +130,7 @@ class _NewReportScreenState extends State<NewReportScreen> {
                 }
               },
             ),
-      isAppBar: true,
-      pageNmae: _isSearching
-          ? TextField(
-              controller: searchController,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: "Name, email, ...",
-              ),
-              autofocus: true,
-              style: TextStyle(
-                fontSize: 17,
-                letterSpacing: 0.5,
-              ),
-              // When search text changes the updated search List
-              onChanged: (value)async {
-                setState(() {
-                  textEntered = value;
-                });
-                await initSearchMenus(value);
-              },
-            )
-          : Center(child: Text("Report")),
+      // todo : ------------------------------------------------------------------
     );
   }
 }

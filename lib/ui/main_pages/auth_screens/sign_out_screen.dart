@@ -1,10 +1,10 @@
 import 'package:ecowatt_yassine_askour_flutter/global/global.dart';
 import 'package:ecowatt_yassine_askour_flutter/ui/main_pages/splash_screen.dart';
-import 'package:ecowatt_yassine_askour_flutter/widgets/advanced_drawer_widget.dart';
+import 'package:ecowatt_yassine_askour_flutter/widgets/custom_widgets/custom_advanced_drawer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 
-import 'home_page.dart';
+import '../home_page.dart';
 
 class SignOutScreen extends StatefulWidget {
   const SignOutScreen({super.key});

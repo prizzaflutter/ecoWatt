@@ -1,4 +1,4 @@
-import 'package:ecowatt_yassine_askour_flutter/ui/main_pages/login_screen.dart';
+import 'package:ecowatt_yassine_askour_flutter/ui/main_pages/auth_screens/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';

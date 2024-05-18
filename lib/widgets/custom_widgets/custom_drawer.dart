@@ -1,12 +1,12 @@
 import "package:ecowatt_yassine_askour_flutter/global/global.dart";
 import "package:ecowatt_yassine_askour_flutter/ui/main_pages/home_page.dart";
 import"package:flutter/material.dart";
-import "../ui/main_pages/about_us_screen.dart";
-import "../ui/main_pages/profile_screen.dart";
-import "../ui/main_pages/report_screen.dart";
-import "../ui/main_pages/settings_screen.dart";
-import "../ui/main_pages/sign_out_screen.dart";
-import "cached_network_image.dart";
+import "../../ui/main_pages/other_drawer_screens/about_us_screen.dart";
+import "../../ui/main_pages/other_drawer_screens/profile_screen.dart";
+import "../../ui/main_pages/report_screens/report_screen.dart";
+import "../../ui/main_pages/other_drawer_screens/settings_screen.dart";
+import "../../ui/main_pages/auth_screens/sign_out_screen.dart";
+import "custom_cached_network_image.dart";
 // Widget customDrawer (BuildContext context){
 //   SharedPreferences? sharedPreferences = SharedPreferencesService().sharedPreferences;
 //   final double height = MediaQuery.of(context).size.height;

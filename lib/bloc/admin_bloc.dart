@@ -2,14 +2,15 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:ecowatt_yassine_askour_flutter/global/global.dart';
 import 'package:ecowatt_yassine_askour_flutter/services/auth_services.dart';
-import 'package:ecowatt_yassine_askour_flutter/ui/main_pages/signup_screen.dart';
-import 'package:ecowatt_yassine_askour_flutter/ui/main_pages/signup_screen1.dart';
+import 'package:ecowatt_yassine_askour_flutter/ui/main_pages/auth_screens/signup_screen.dart';
+import 'package:ecowatt_yassine_askour_flutter/ui/main_pages/auth_screens/signup_screen1.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/Admin_model.dart';
+import '../model/report_model.dart';
 
 
 part 'admin_event.dart';
@@ -23,6 +24,7 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> with SignUpBloc , LogInBloc
   AdminBloc() : super(AdminInitial()) {
     on<SignUpAdminEvent>(_signUpAdminEvent);
     on<LogInAdminEvent>(_logInAdminEvent);
+    // on<GetReportEvent>(_getReportEvent);
   }
 
   FutureOr<void> _signUpAdminEvent(
@@ -138,6 +140,21 @@ Future saveInfoToFireStore (String id) async {
   await sharedPreferences.setString("email", SignUpScreen2.emailController.text.trim());
   await sharedPreferences.setString("image", SignUpScreen.imageDownloadUrl!);
 }
+
+// todo => get report model data
+
+// FutureOr<void> _getReportEvent (GetReportEvent event ,Emitter<AdminState> emit)async {
+//     emit(DataLoadingState(true));
+//     try {
+//         Stream<ReportModel>({required String userUID})async{
+//           await firebaseFirestore
+//               .collection("Users")
+//               .doc(userUID)
+//               .collection("Reports")
+//               .snapshots();
+//         }
+//     }
+// }
 }
 class SwitchBloc extends Bloc<dynamic, String> {
   final _switchController = StreamController<String>.broadcast();
@@ -152,3 +169,6 @@ class SwitchBloc extends Bloc<dynamic, String> {
     _switchController.close();
   }
 }
+
+
+

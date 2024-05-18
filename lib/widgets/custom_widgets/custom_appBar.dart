@@ -38,7 +38,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
           child: widget.pageName != null
               ? widget.pageName
               : Image.asset(
-                  "C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/images/ecoWattLogobg.png",
+                  "C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/images/TAQAUNIVERSLOGO.png",
                   width: width * 0.30,
                 )),
       actions: [

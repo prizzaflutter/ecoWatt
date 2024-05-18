@@ -19,10 +19,27 @@ final class DataLoadedState extends AdminState {
   @override
   List<Object?> get props => [adminModel];
 }
-
 final class DataLoadingErrorSate extends AdminState{
   final String? errorMessage ;
   DataLoadingErrorSate(this.errorMessage);
   @override
   List<Object?> get props => [errorMessage];
+}
+final class ReportGetSuccessfullyState extends AdminState{
+  final ReportModel reportModel ;
+  ReportGetSuccessfullyState({required this.reportModel});
+  @override
+  List<Object?> get props => [reportModel];
+
+}
+final class ReportLoadingState extends AdminState{
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
+final class ReportLoadingErrorState extends AdminState{
+  final String? ErrorMessage;
+  ReportLoadingErrorState({this.ErrorMessage});
+  @override
+  List<Object?> get props => [ErrorMessage];
 }

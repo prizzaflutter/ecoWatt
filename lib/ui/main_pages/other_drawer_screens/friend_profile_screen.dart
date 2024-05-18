@@ -3,7 +3,7 @@ import 'package:ecowatt_yassine_askour_flutter/model/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../widgets/cached_network_image.dart';
+import '../../../widgets/custom_widgets/custom_cached_network_image.dart';
 class FriendProfileScreen extends StatefulWidget {
   final UserModel userModel;
   const FriendProfileScreen({super.key,required this.userModel});

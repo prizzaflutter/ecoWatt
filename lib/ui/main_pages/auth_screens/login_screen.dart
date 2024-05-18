@@ -1,14 +1,14 @@
 import 'package:ecowatt_yassine_askour_flutter/bloc/admin_bloc.dart';
-import 'package:ecowatt_yassine_askour_flutter/ui/main_pages/signup_screen.dart';
+import 'package:ecowatt_yassine_askour_flutter/ui/main_pages/auth_screens/signup_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../global/global.dart';
-import '../../widgets/email_password_validator.dart';
-import 'home_page.dart';
+import '../../../global/global.dart';
+import '../../../widgets/email_password_validator.dart';
+import '../home_page.dart';
 
 class LoginScreen extends StatefulWidget {
   static BuildContext? savedContext ;
@@ -114,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: Image.asset(
-                "C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/images/ecoWattLogobg.png",
+                "C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/images/TAQAUNIVERSLOGO.png",
                 width: 413,
                 height: 457,
               ),

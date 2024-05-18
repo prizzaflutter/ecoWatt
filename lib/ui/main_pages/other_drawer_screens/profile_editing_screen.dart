@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecowatt_yassine_askour_flutter/model/SharedPreferencesModel.dart';
-import 'package:ecowatt_yassine_askour_flutter/widgets/cached_network_image.dart';
-import 'package:ecowatt_yassine_askour_flutter/widgets/custom_text_field.dart';
+import 'package:ecowatt_yassine_askour_flutter/widgets/custom_widgets/custom_cached_network_image.dart';
+import 'package:ecowatt_yassine_askour_flutter/widgets/custom_widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../global/global.dart';
+import '../../../global/global.dart';
 
 class ProfileEditingScreen extends StatefulWidget {
   const ProfileEditingScreen({super.key});
