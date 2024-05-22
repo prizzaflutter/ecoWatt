@@ -3,17 +3,18 @@ import 'package:date_format/date_format.dart';
 import 'package:ecowatt_yassine_askour_flutter/global/global.dart';
 import 'package:ecowatt_yassine_askour_flutter/ui/main_pages/report_screens/chat_screen.dart';
 import 'package:ecowatt_yassine_askour_flutter/ui/main_pages/other_drawer_screens/friend_profile_screen.dart';
+import 'package:ecowatt_yassine_askour_flutter/ui/main_pages/report_screens/pdf_page/pdf_pages/buildTitle.dart';
+import 'package:ecowatt_yassine_askour_flutter/ui/main_pages/report_screens/pdf_page/pdf_pages/build_user_table.dart';
+import 'package:ecowatt_yassine_askour_flutter/ui/main_pages/vedio_audio_call/vedio_call.dar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:pdf/pdf.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import '../../../model/report_model.dart';
 import '../../../model/user_model.dart';
 import 'package:pdf/widgets.dart' as pw;
-
 import '../../../widgets/custom_widgets/custom_cached_network_image.dart';
 
 class userReportScreen extends StatefulWidget {
@@ -41,40 +42,26 @@ class _userReportScreenState extends State<userReportScreen> {
   bool? isTasks = false;
   bool? isObservations = false;
 
-  List<String> tasks = ["askour", "idriss"];
-  String? observations =
-      "askour asdkour idriss is not here for now brother adnd sister";
+    ReportModel? reportModelVariable ;
 
   @override
   Widget build(BuildContext context) {
-    Future<void> createAndSavePDF() async {
+    Future<void> createAndSavePDF(BuildContext context) async {
       final pdf = pw.Document();
       final fontData = await rootBundle.load("lib/assets/fonts/Voguella.ttf");
       final ttf = pw.Font.ttf(fontData.buffer.asByteData());
 
       pdf.addPage(
-        pw.Page(
-          pageFormat: PdfPageFormat.a4,
-          build: (pw.Context context) {
-            return pw.Column(
-              children: [
-                pw.Text('Tasks:', style: pw.TextStyle(font: ttf)),
-                // Replace with your actual list of tasks
-                for (var task in tasks)
-                  pw.Text(task, style: pw.TextStyle(font: ttf)),
-                pw.SizedBox(height: 20),
-                pw.Text('Observations:', style: pw.TextStyle(font: ttf)),
-                pw.Text(observations ?? '', style: pw.TextStyle(font: ttf)),
-              ],
-            );
-          },
-        ),
+        pw.MultiPage(build: (context)=>[
+          buildTitle( userModel: widget.userModel , reportModel:  reportModelVariable!),
+          buildUserTable(userModel: widget.userModel , reportModel:  reportModelVariable!),
+        ])
       );
 
       final directory = await getExternalStorageDirectory();
-      final file = File("${directory?.path}/example.pdf");
+      final timestamp = DateTime.now().millisecondsSinceEpoch;
+      final file = File("${directory?.path}/$timestamp.pdf");
       await file.writeAsBytes(await pdf.save());
-
       debugPrint("PDF saved at: ${file.path}");
     }
 
@@ -104,7 +91,11 @@ class _userReportScreenState extends State<userReportScreen> {
             ),
             actions: [
               GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).push(
+                      PageTransition(child: vedioCall(), type: PageTransitionType.rightToLeft)
+                    );
+                  },
                   child: Image.asset(
                     "C:/Users/idris/OneDrive/Desktop/ecowatt_yassine_askour_flutter_admine/lib/assets/icon/phone.png",
                     width: 30,
@@ -426,7 +417,81 @@ class _userReportScreenState extends State<userReportScreen> {
                                         ),
                                         ElevatedButton(
                                           onPressed: () async {
-                                            await createAndSavePDF();
+                                             setState((){
+                                               reportModelVariable = reportModel ;
+                                            });
+                                              await createAndSavePDF(context);
+                                            // final invoice = Invoice(
+                                            //      userInfo: UserModel(
+                                            //        userUID: "",
+                                            //        userName: "idriss",
+                                            //        userImage: "",
+                                            //        userStatus: "askour",
+                                            //        userEmail: "idrissaskour6@gmail.com",
+                                            //        userPhoneNumber: "06961332971",
+                                            //      ),
+                                            //   adminInfo: AdminModel(
+                                            //     adminUID: "",
+                                            //     adminName: "Yassine",
+                                            //     adminImage: "",
+                                            //     adminStatus: "aljardin",
+                                            //     adminEmail: "yassinealjardin2@gmail.com",
+                                            //     adminPhoneNumber: "06961332971",
+                                            //   ),
+                                            //   items : [
+                                            //     InvoiceItem (
+                                            //       description : 'cofee',
+                                            //       date : DateTime.now().toString(),
+                                            //       quantity : 3,
+                                            //       vat : 0.19,
+                                            //       unitPrice : 6.99,
+                                            //     ),
+                                            //     InvoiceItem (
+                                            //       description : 'cofee',
+                                            //       date : DateTime.now().toString(),
+                                            //       quantity : 3,
+                                            //       vat : 0.19,
+                                            //       unitPrice : 6.99,
+                                            //     ),
+                                            //     InvoiceItem (
+                                            //       description : 'cofee',
+                                            //       date : DateTime.now().toString(),
+                                            //       quantity : 3,
+                                            //       vat : 0.19,
+                                            //       unitPrice : 6.99,
+                                            //     ),
+                                            //     InvoiceItem (
+                                            //       description : 'cofee',
+                                            //       date : DateTime.now().toString(),
+                                            //       quantity : 3,
+                                            //       vat : 0.19,
+                                            //       unitPrice : 6.99,
+                                            //     ),
+                                            //     InvoiceItem (
+                                            //       description : 'cofee',
+                                            //       date : DateTime.now().toString(),
+                                            //       quantity : 3,
+                                            //       vat : 0.19,
+                                            //       unitPrice : 6.99,
+                                            //     ),
+                                            //     InvoiceItem (
+                                            //       description : 'cofee',
+                                            //       date : DateTime.now().toString(),
+                                            //       quantity : 3,
+                                            //       vat : 0.19,
+                                            //       unitPrice : 6.99,
+                                            //     ),
+                                            //     InvoiceItem (
+                                            //       description : 'cofee',
+                                            //       date : DateTime.now().toString(),
+                                            //       quantity : 3,
+                                            //       vat : 0.19,
+                                            //       unitPrice : 6.99,
+                                            //     )
+                                            //   ]
+                                            // );
+                                            // final pdfFile = await PdfInvoiceApi.generate(invoice);
+                                            // PdfApi.openFile(pdfFile);
                                           },
                                           child: const Text("askour"),
                                         )

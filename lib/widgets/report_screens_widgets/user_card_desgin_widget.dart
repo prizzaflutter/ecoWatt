@@ -6,6 +6,7 @@ import 'package:page_transition/page_transition.dart';
 
 import '../../global/global.dart';
 import '../../model/messages_model.dart';
+import '../../model/report_model.dart';
 import '../custom_widgets/custom_cached_network_image.dart';
 
 class userCardDesignWidget extends StatefulWidget {
@@ -26,7 +27,7 @@ class _userCardDesignWidgetState extends State<userCardDesignWidget> {
     return GestureDetector(
       onTap: () async{
         // todo save the GlobalUserUID to global variable && navigate to UserReportScreen
-         Navigator.of(context).push(PageTransition(child: userReportScreen(userModel: widget.userModel), type: PageTransitionType.rightToLeft));
+         Navigator.of(context).push(PageTransition(child: userReportScreen(userModel: widget.userModel,), type: PageTransitionType.rightToLeft));
       },
       child: StreamBuilder(
         stream: getLastMessage(widget.userModel),

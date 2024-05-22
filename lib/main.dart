@@ -1,9 +1,7 @@
-import 'package:device_preview/device_preview.dart';
 import 'package:ecowatt_yassine_askour_flutter/bloc/admin_bloc.dart';
 import 'package:ecowatt_yassine_askour_flutter/ui/main_pages/splash_screen.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/bloc_observer.dart';
