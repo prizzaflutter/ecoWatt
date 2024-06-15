@@ -78,7 +78,7 @@ class _ProfileEditingScreenState extends State<ProfileEditingScreen> {
                 height: ScreenSize.height! * 0.06,
                 child: ElevatedButton(
                     onPressed: () {
-                      debugPrint(Timestamp.now().toString());
+                       (Timestamp.now().toString());
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.yellow),

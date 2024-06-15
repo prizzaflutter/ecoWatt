@@ -25,12 +25,12 @@ class AuthService {
           adminPhoneNumber: sharedPreferences.getString("AdminPhoneNumber"),
         );
       }else {
-        debugPrint("firebaseAdmin == Null");
+         ("firebaseAdmin == Null");
       }
     }on FirebaseAuthException catch (error){
-      debugPrint("From AuthService => SignUpAdmin : ${error.code}");
+       ("From AuthService => SignUpAdmin : ${error.code}");
     }catch (exception){
-      debugPrint(exception.toString());
+       (exception.toString());
     }
     return null;
   }
@@ -40,7 +40,7 @@ class AuthService {
       final UserCredential userCredential = await auth.signInWithEmailAndPassword(email: email.trim(), password: password.trim());
       final User? firebaseAdmin = userCredential.user;
       if (firebaseAdmin != null){
-        debugPrint("firebaseAdmin != null -------------------------------");
+         ("firebaseAdmin != null -------------------------------");
         await LoginScreen.getDataAndSetLocally(firebaseAdmin.uid, context : context);
         return  AdminModel(
           adminUID: firebaseAdmin.uid,
@@ -53,19 +53,19 @@ class AuthService {
       }
     }on FirebaseException catch (error){
       if (error.code == "Admin-not-found"){
-        debugPrint("Admin-not-found");
+         ("Admin-not-found");
       }else if (error.code == "wrong-password"){
-        debugPrint("Wrong-password");
+         ("Wrong-password");
         _scaffoldKey.currentState?.showSnackBar(const SnackBar(content: Text("Wrong password provided for that Admin")));
       }
-    }catch (exception){debugPrint(exception.toString());}
+    }catch (exception){ (exception.toString());}
     return null ;
   }
   Future<AdminModel?> signOutAdmin() async{
     if (auth.currentUser != null){
       await auth.signOut();
     }else {
-      debugPrint("The admin  == null => from signOutAdmin => AuthService");
+       ("The admin  == null => from signOutAdmin => AuthService");
     }
     return null;
   }

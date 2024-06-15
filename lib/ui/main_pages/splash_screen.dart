@@ -30,16 +30,17 @@ class _SplashScreenState extends State<SplashScreen> {
 
   startTimer() async {
     _myTimer = Timer(const Duration(seconds: 5), () async {
-      auth.authStateChanges().listen((User? Admin) {
+      auth.authStateChanges().listen((User? Admin) async {
         if (Admin != null && Admin.emailVerified) {
           if (mounted){
-            setState(() {
+            setState(()async{
               SplashScreen.isLogin = true;
               if (_connectivityResult == ConnectivityResult.none){
                 Navigator.of(context).pushReplacement(
                   PageTransition(child: const NoConnectionScreen(), type: PageTransitionType.rightToLeft),
                 );
               }else {
+                await LoginScreen.getDataAndSetLocally(Admin.uid.toString(), context: context);
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const HomeScreen()));
               }

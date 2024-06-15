@@ -34,15 +34,15 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> with SignUpBloc , LogInBloc
       final AdminModel? admin = await authService.signUpAdmin(
           event.email.trim(), event.password.trim());
       if (admin != null){
-        debugPrint("Admin!= null------------------------------------");
+         ("Admin!= null------------------------------------");
         await  saveImageToStorage(admin.adminUID.toString()).then((value) async{
-          debugPrint(" save Info To FireStore ------------------------------------");
+           (" save Info To FireStore ------------------------------------");
            await saveInfoToFireStore(admin.adminUID.toString());
         });
         emit(DataLoadedState(admin));
       }else {emit(DataLoadingErrorSate("Create Admin Failed (Admin == null)"));}
     } on FirebaseException catch (exception){
-      debugPrint("The error is : ${exception.toString()}");
+       ("The error is : ${exception.toString()}");
     }
   }
 FutureOr<void> _logInAdminEvent(
@@ -52,14 +52,14 @@ FutureOr<void> _logInAdminEvent(
   try {
     final AdminModel? admin = await authService.logInAdmin(event.email, event.password, context : event.context);
     if (admin != null) {
-      debugPrint("Admin!=null------------------------------------------------");
+       ("Admin!=null------------------------------------------------");
       emit(DataLoadedState(admin));
     } else {
-      debugPrint("DAtaLoadingErrorStae emited------------------------------------");
+       ("DAtaLoadingErrorStae emited------------------------------------");
       emit(DataLoadingErrorSate("Create Admin Failed"));
     }
   } catch (error) {
-    debugPrint("The Error is : ${error.toString()}");
+     ("The Error is : ${error.toString()}");
   }
 }
 

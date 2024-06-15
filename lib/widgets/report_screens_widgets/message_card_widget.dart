@@ -16,7 +16,7 @@ class MessageCard extends StatefulWidget {
 class _MessageCardState extends State<MessageCard> {
   @override
   Widget build(BuildContext context) {
-    debugPrint(widget.message.fromId.toString());
+     (widget.message.fromId.toString());
     return adminUID == widget.message.fromId ?
     _greenMessage() : _blueMessage();
   }
@@ -25,9 +25,9 @@ class _MessageCardState extends State<MessageCard> {
 Widget _blueMessage(){
   if(widget.message.read.isEmpty)  {
     updateMessageReadStatus(widget.message);
-    debugPrint("Message read update-----------------------------------------------------------------------------------------------------------------------------");
+     ("Message read update-----------------------------------------------------------------------------------------------------------------------------");
   }else {
-    debugPrint("read is NotEmpty-----------------------------------------------------------------------------------------------------------------------------");
+     ("read is NotEmpty-----------------------------------------------------------------------------------------------------------------------------");
   }
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -96,7 +96,13 @@ Widget _greenMessage(){
             margin: EdgeInsets.symmetric(
                 horizontal: ScreenSize.width! * .04, vertical: ScreenSize.height! * .01
             ),
-            child : Text(widget.message.msg)
+            child : widget.message.type == Type.text ?
+            Text(widget.message.msg)
+                : ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: cachedNetworkImage(image: widget.message.msg,
+                    shape: BoxShape.rectangle,
+                    height: ScreenSize.height! * .3,width: ScreenSize.width! * .6))
         ),
       ),
     ],),

@@ -120,7 +120,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     EdgeInsets.symmetric(horizontal: ScreenSize.width! * 0.2),
                     child: ListTile(
                       onTap: () {
-                        debugPrint("askour");
+                         ("askour");
                       },
                       leading: const Icon(
                         Icons.home,
@@ -135,7 +135,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     EdgeInsets.symmetric(horizontal: ScreenSize.width! * 0.2),
                     child: ListTile(
                       onTap: () {
-                        debugPrint("askour");
+                         ("askour");
                       },
                       leading: const Icon(
                         Icons.settings,
@@ -150,7 +150,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     EdgeInsets.symmetric(horizontal: ScreenSize.width! * 0.2),
                     child: ListTile(
                       onTap: () {
-                        debugPrint("askour");
+                         ("askour");
                       },
                       leading: const Icon(
                         Icons.document_scanner,
@@ -170,7 +170,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           borderRadius: BorderRadius.circular(30)),
                       child: ListTile(
                         onTap: () {
-                          debugPrint("askour");
+                           ("askour");
                           setState(() {
                             containerColor = Colors.red;
                           });

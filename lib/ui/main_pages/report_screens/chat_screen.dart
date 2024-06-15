@@ -1,5 +1,4 @@
 import 'package:ecowatt_yassine_askour_flutter/model/user_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../global/global.dart';
@@ -138,7 +137,7 @@ class _chatScreenState extends State<chatScreen> {
                                           message: message,
                                           userModel: widget.userModel);
                                     })
-                                : Center(child: Text("No User Found"));
+                                : Center(child: Text("Say Hi 🫡"));
                         }
                       },
                     ),

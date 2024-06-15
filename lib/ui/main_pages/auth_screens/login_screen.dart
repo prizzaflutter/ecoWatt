@@ -43,7 +43,7 @@ class LoginScreen extends StatefulWidget {
               "AdminStatus", snapshot.data()!["AdminStatus"]);
           await sharedPreferences.setString(
               "status", snapshot.data()!["status"]);
-          Navigator.pop(savedContext!);
+          // Navigator.pop(savedContext!);
           // Navigator.of(savedContext!).push(
           //   PageTransition(
           //     child: const HomeScreen(),
@@ -54,12 +54,12 @@ class LoginScreen extends StatefulWidget {
           // );
         } else {
           Navigator.pop(savedContext!);
-          debugPrint("You account has been blocked");
+           ("You account has been blocked");
           ScaffoldMessenger.of(savedContext!).showSnackBar(
               const SnackBar(content: Text("You account has been blocked")));
         }
       } else {
-        debugPrint("Snapshot doesn't exist");
+         ("Snapshot doesn't exist");
         auth.signOut();
         Navigator.pop(savedContext!);
         Navigator.of(savedContext!).push(
@@ -274,9 +274,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                   .authStateChanges()
                                   .listen((User? Admin) async {
                                 if (Admin != null) {
-                                  debugPrint("-------------------------The Admin != null ------------------------------------------------------------");
+                                   ("-------------------------The Admin != null ------------------------------------------------------------");
                                   if (Admin.emailVerified  == true ) {
-                                    debugPrint(
+                                     (
                                         "-----------------: ${Admin.emailVerified.toString()}");
                                     Navigator.of(context).push(
                                       PageTransition(
@@ -294,7 +294,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ),
                                     );
                                   } else {
-                                    debugPrint("...............false");
+                                     ("...............false");
                                     Navigator.of(context).pop();
                                     ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(

@@ -1,4 +1,4 @@
-package com.example.ecowatt_yassine_askour_flutter_admine
+package com.ecowatt.EcoWatt
 
 import io.flutter.embedding.android.FlutterActivity
 

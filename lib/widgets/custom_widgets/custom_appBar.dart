@@ -28,7 +28,6 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _CustomAppBarState extends State<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
-    final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     return AppBar(
       automaticallyImplyLeading: widget.automaticallyImplyLeading ?? false,
@@ -46,10 +45,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
             ? Switch(
                 value: widget.isOn,
                 onChanged: (value) {
-                  debugPrint(value.toString());
+                   (value.toString());
                   setState(() {
                     widget.isOn = value;
-                    debugPrint(widget.isOn.toString());
+                     (widget.isOn.toString());
                   });
                 })
             : widget.action,

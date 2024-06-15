@@ -1,3 +1,4 @@
+import 'package:ecowatt_yassine_askour_flutter/model/Admin_model.dart';
 import 'package:ecowatt_yassine_askour_flutter/model/user_model.dart';
 import 'package:ecowatt_yassine_askour_flutter/ui/main_pages/report_screens/user_report_screen.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,6 @@ import 'package:page_transition/page_transition.dart';
 
 import '../../global/global.dart';
 import '../../model/messages_model.dart';
-import '../../model/report_model.dart';
 import '../custom_widgets/custom_cached_network_image.dart';
 
 class userCardDesignWidget extends StatefulWidget {

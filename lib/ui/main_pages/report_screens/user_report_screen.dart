@@ -1,9 +1,9 @@
 import 'dart:io';
-import 'package:date_format/date_format.dart';
 import 'package:ecowatt_yassine_askour_flutter/global/global.dart';
 import 'package:ecowatt_yassine_askour_flutter/ui/main_pages/report_screens/chat_screen.dart';
 import 'package:ecowatt_yassine_askour_flutter/ui/main_pages/other_drawer_screens/friend_profile_screen.dart';
 import 'package:ecowatt_yassine_askour_flutter/ui/main_pages/report_screens/pdf_page/pdf_pages/buildTitle.dart';
+import 'package:ecowatt_yassine_askour_flutter/ui/main_pages/report_screens/pdf_page/pdf_pages/build_tasks_section.dart';
 import 'package:ecowatt_yassine_askour_flutter/ui/main_pages/report_screens/pdf_page/pdf_pages/build_user_table.dart';
 import 'package:ecowatt_yassine_askour_flutter/ui/main_pages/vedio_audio_call/vedio_call.dar.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +12,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import '../../../model/Admin_model.dart';
 import '../../../model/report_model.dart';
 import '../../../model/user_model.dart';
-import 'package:pdf/widgets.dart' as pw;
+import 'package:pdf/widgets.dart' as pw ;
 import '../../../widgets/custom_widgets/custom_cached_network_image.dart';
 
 class userReportScreen extends StatefulWidget {
@@ -30,7 +31,7 @@ TextEditingController messageController = TextEditingController();
 
 double _calculatePercentage(double constructionsCosts) {
   double maxConstructionsCostsAssumed = 1000;
-  debugPrint((constructionsCosts / maxConstructionsCostsAssumed)
+   ((constructionsCosts / maxConstructionsCostsAssumed)
       .clamp(0.0, 1.0)
       .toString());
   return (constructionsCosts / maxConstructionsCostsAssumed).clamp(0.0, 1.0);
@@ -46,16 +47,33 @@ class _userReportScreenState extends State<userReportScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Future<void> createAndSavePDF(BuildContext context) async {
+    Future<void> createAndSavePDF({required BuildContext context, required UserModel userModel, required AdminModel adminModel, required ReportModel reportModel}) async {
       final pdf = pw.Document();
-      final fontData = await rootBundle.load("lib/assets/fonts/Voguella.ttf");
+
+      // Load custom fonts
+      final fontData = await rootBundle.load("lib/assets/fonts/Amiri-Regular.ttf");
       final ttf = pw.Font.ttf(fontData.buffer.asByteData());
 
+      final arabicFontData = await rootBundle.load("lib/assets/fonts/TheMixArab-Regular.ttf");
+      final arabicTtf = pw.Font.ttf(arabicFontData.buffer.asByteData());
+
       pdf.addPage(
-        pw.MultiPage(build: (context)=>[
-          buildTitle( userModel: widget.userModel , reportModel:  reportModelVariable!),
-          buildUserTable(userModel: widget.userModel , reportModel:  reportModelVariable!),
-        ])
+        pw.MultiPage(
+          build: (context) => [
+            buildTitle(context: context, userModel: userModel, adminModel: adminModel, reportModel: reportModel),
+            buildUserTable(context: context, userModel: userModel, reportModel: reportModel, font: ttf, arabicFont: arabicTtf),
+            buildTasksSection(reportModel: reportModel, font: ttf, arabicFont: arabicTtf),
+            buildObservationsSection(reportModel: reportModel, font: ttf, arabicFont: arabicTtf),
+            buildBarcode(reportModel: reportModel),  // Add the barcode widget
+            buildBottom(),
+          ],
+          theme: pw.ThemeData.withFont(
+            base: ttf,
+            bold: ttf,
+            italic: ttf,
+            boldItalic: ttf,
+          ),
+        ),
       );
 
       final directory = await getExternalStorageDirectory();
@@ -64,6 +82,30 @@ class _userReportScreenState extends State<userReportScreen> {
       await file.writeAsBytes(await pdf.save());
       debugPrint("PDF saved at: ${file.path}");
     }
+    // Future<void> createAndSavePDF(BuildContext context) async {
+    //   final pdf = pw.Document();
+    //   // final fontData = await rootBundle.load("lib/assets/fonts/Voguella.ttf");
+    //   // final ttf = pw.Font.ttf(fontData.buffer.asByteData());
+    //   final fontData = await rootBundle.load("lib/assets/fonts/Amiri-Regular.ttf");
+    //   final ttf = pw.Font.ttf(fontData.buffer.asByteData());
+    //
+    //   // load a fallback font that support Arabic characters
+    //   final arabicFontData = await rootBundle.load("lib/assets/fonts/TheMixArab-Regular.ttf");
+    //   final arabicTtf = pw.Font.ttf(arabicFontData.buffer.asByteData());
+    //
+    //   pdf.addPage(
+    //    pw.MultiPage(build: (context)=>[
+    //      buildTitle( context : context , userModel: widget.userModel , reportModel:  reportModelVariable!),
+    //      buildUserTable(context : context ,userModel: widget.userModel , reportModel:  reportModelVariable!, font: ttf,arabicFont : arabicTtf),
+    //     ])
+    //   );
+    //
+    //   final directory = await getExternalStorageDirectory();
+    //   final timestamp = DateTime.now().millisecondsSinceEpoch;
+    //   final file = File("${directory?.path}/$timestamp.pdf");
+    //   await file.writeAsBytes(await pdf.save());
+    //     debugPrint("PDF saved at: ${file.path}");
+    // }
 
     return SafeArea(
       child: Scaffold(
@@ -181,10 +223,9 @@ class _userReportScreenState extends State<userReportScreen> {
                                                 bottomLeft:
                                                     Radius.circular(30)),
                                           ),
-                                          title: Text(formatDate(
+                                          title: Text(format_Date(
                                                   reportModel.publishedDate
-                                                      .toDate(),
-                                                  [yyyy, '-', mm, '-', dd])
+                                                      .toDate())
                                               .toString()),
                                           trailing: Text(
                                               "ID:${reportModel.reportID.toString()}"),
@@ -420,80 +461,13 @@ class _userReportScreenState extends State<userReportScreen> {
                                              setState((){
                                                reportModelVariable = reportModel ;
                                             });
-                                              await createAndSavePDF(context);
-                                            // final invoice = Invoice(
-                                            //      userInfo: UserModel(
-                                            //        userUID: "",
-                                            //        userName: "idriss",
-                                            //        userImage: "",
-                                            //        userStatus: "askour",
-                                            //        userEmail: "idrissaskour6@gmail.com",
-                                            //        userPhoneNumber: "06961332971",
-                                            //      ),
-                                            //   adminInfo: AdminModel(
-                                            //     adminUID: "",
-                                            //     adminName: "Yassine",
-                                            //     adminImage: "",
-                                            //     adminStatus: "aljardin",
-                                            //     adminEmail: "yassinealjardin2@gmail.com",
-                                            //     adminPhoneNumber: "06961332971",
-                                            //   ),
-                                            //   items : [
-                                            //     InvoiceItem (
-                                            //       description : 'cofee',
-                                            //       date : DateTime.now().toString(),
-                                            //       quantity : 3,
-                                            //       vat : 0.19,
-                                            //       unitPrice : 6.99,
-                                            //     ),
-                                            //     InvoiceItem (
-                                            //       description : 'cofee',
-                                            //       date : DateTime.now().toString(),
-                                            //       quantity : 3,
-                                            //       vat : 0.19,
-                                            //       unitPrice : 6.99,
-                                            //     ),
-                                            //     InvoiceItem (
-                                            //       description : 'cofee',
-                                            //       date : DateTime.now().toString(),
-                                            //       quantity : 3,
-                                            //       vat : 0.19,
-                                            //       unitPrice : 6.99,
-                                            //     ),
-                                            //     InvoiceItem (
-                                            //       description : 'cofee',
-                                            //       date : DateTime.now().toString(),
-                                            //       quantity : 3,
-                                            //       vat : 0.19,
-                                            //       unitPrice : 6.99,
-                                            //     ),
-                                            //     InvoiceItem (
-                                            //       description : 'cofee',
-                                            //       date : DateTime.now().toString(),
-                                            //       quantity : 3,
-                                            //       vat : 0.19,
-                                            //       unitPrice : 6.99,
-                                            //     ),
-                                            //     InvoiceItem (
-                                            //       description : 'cofee',
-                                            //       date : DateTime.now().toString(),
-                                            //       quantity : 3,
-                                            //       vat : 0.19,
-                                            //       unitPrice : 6.99,
-                                            //     ),
-                                            //     InvoiceItem (
-                                            //       description : 'cofee',
-                                            //       date : DateTime.now().toString(),
-                                            //       quantity : 3,
-                                            //       vat : 0.19,
-                                            //       unitPrice : 6.99,
-                                            //     )
-                                            //   ]
-                                            // );
-                                            // final pdfFile = await PdfInvoiceApi.generate(invoice);
-                                            // PdfApi.openFile(pdfFile);
+                                             try{
+                                               await createAndSavePDF(context: context , reportModel: reportModel, userModel:  widget.userModel, adminModel:adminModel);
+                                             }catch(exception){
+                                               debugPrint("The exception is : $exception");
+                                             }
                                           },
-                                          child: const Text("askour"),
+                                          child: const Text("Download Pdf"),
                                         )
                                       ],
                                     ),

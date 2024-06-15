@@ -46,14 +46,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (await Permission.photos
         .request()
         .isGranted) {
-      debugPrint("Permission photo isGranted");
+       ("Permission photo isGranted");
     } else {
       await Permission.photos.request();
     }
   }
   Future<void> _requestLocationPermission () async {
     if (await Permission.location.isGranted){
-      debugPrint("Permission location isGranted");
+       ("Permission location isGranted");
     }else {
       await Permission.location.request();
     }
@@ -230,7 +230,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 //   setState(() {
                                 //     phoneNumber = "+212$number";
                                 //   });
-                                //   debugPrint(phoneNumber);
+                                //    (phoneNumber);
                                 // },
                                 onChanged: (value) {
                                   if (value.length == 9) {
@@ -380,7 +380,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               if (_globalKey.currentState!.validate()){
                                 setState(() {
                                  SignUpScreen.phoneNumber = "+212${_phoneController.text.trim()}";
-                                  debugPrint(SignUpScreen.phoneNumber );
+                                   (SignUpScreen.phoneNumber );
                                 });
                                 Navigator.of(context).push(PageTransition(
                                   child: const SignUpScreen2(),
@@ -402,7 +402,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         //   listener: (context, state) async{
                         //     if (state is VerificationScreeOtpSuccessState){
                         //           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Congratilation Your Phone Verified Seccessfully")));
-                        //           debugPrint(firebaseAdmin?.uid);
+                        //            (firebaseAdmin?.uid);
                         //     }else if (state is VPhoneLoadedState){
                         //       //TODO save imagePath to firebaseStorage
                         //         final filePath = SignUpScreen.imagePath;
@@ -417,7 +417,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         //         UploadTask uploadTask = imagePath.putFile(file!, metadata);
                         //         uploadTask.whenComplete((){});
                         //         String url = await imagePath.getDownloadURL();
-                        //         debugPrint(url);
+                        //          (url);
                         //         setState(()  {
                         //           imageDownloadUrl = url.toString() ;
                         //         });
@@ -432,28 +432,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         //                ),);
                         //               break;
                         //             case TaskState.paused:
-                        //               debugPrint("paused.....");
+                        //                ("paused.....");
                         //               break;
                         //             case TaskState.success:
-                        //                debugPrint("the image was puted seccussfully");
+                        //                 ("the image was puted seccussfully");
                         //               break;
                         //             case TaskState.canceled:
-                        //               debugPrint("canceld......");
+                        //                ("canceld......");
                         //               break;
                         //             case TaskState.error:
-                        //               debugPrint("error........");
+                        //                ("error........");
                         //               break;
                         //           }
                         //         });
                         //         //TODO save the info to FirebaseFireStore
                         //         if (SplashScreen.isLogin == true){
-                        //           debugPrint("firebaseAdmin != null -------------------");
+                        //            ("firebaseAdmin != null -------------------");
                         //           await _saveInfoToFireStore();
                         //           Navigator.of(context).push(
                         //               PageTransition(child: const HomeScreen(), type: PageTransitionType.rightToLeft)
                         //           );
                         //         }else {
-                        //           debugPrint("the firebaseAdmin == null .............................");
+                        //            ("the firebaseAdmin == null .............................");
                         //         }
                         //
                         //     }else if (state is VPhoneErrorState){
@@ -467,7 +467,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         //   builder: (context, state) {
                         //     return ElevatedButton(
                         //       onPressed: () async {
-                        //         debugPrint(phoneNumber);
+                        //          (phoneNumber);
                         //         if (SignUpScreen.imagePath != null){
                         //           if (_globalKey.currentState!.validate()){
                         //             PageTransition(

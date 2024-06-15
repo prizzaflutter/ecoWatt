@@ -1,10 +1,10 @@
 import 'dart:io';
-
+import 'package:ecowatt_yassine_askour_flutter/model/Admin_model.dart';
+import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecowatt_yassine_askour_flutter/model/SharedPreferencesModel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,7 +23,14 @@ String phoneNumber = sharedPreferences.getString("phoneNumber")!;
 String email = sharedPreferences.getString("email").toString();
 String password = sharedPreferences.getString("password").toString();
 String dateOfCreateAccount =
-    sharedPreferences.getString("dateOfCreateAccount").toString();
+sharedPreferences.getString("dateOfCreateAccount").toString();
+AdminModel adminModel = AdminModel(
+    adminUID:sharedPreferences.getString("uid").toString()
+    , adminName:  sharedPreferences.getString("name").toString(),
+    adminImage: sharedPreferences.getString("image").toString(),
+    adminPhoneNumber:  sharedPreferences.getString("phoneNumber")!,
+    adminEmail: sharedPreferences.getString("email").toString(),
+    adminStatus: sharedPreferences.getString("AdminStatus").toString());
 
 Future<SharedPreferences> getSharedPrefrences() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -161,10 +168,14 @@ Future<void> sendChatImage (UserModel userModel,File file)async{
   await ref.putFile(
       file , SettableMetadata(contentType: "image/$ext")
   ).then((p0){
-    debugPrint("Data Transferred : ${p0.bytesTransferred / 1000} kb");
+     ("Data Transferred : ${p0.bytesTransferred / 1000} kb");
   });
 
   // updating image in firestore database
   final imageUrl = await ref.getDownloadURL();
   await  sendMessage(adminUID, imageUrl, userModel.userUID!, Type.image);
+}
+
+String format_Date(DateTime date){
+  return DateFormat('yyyy-MM-dd').format(date);
 }
